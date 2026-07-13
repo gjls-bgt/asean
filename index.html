@@ -701,15 +701,15 @@
             switchScreen('screen-menu');
         }
 
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.addEventListener('keydown', function(event) {
-            if (event.keyCode == 123 || 
-               (event.ctrlKey && event.shiftKey && (event.keyCode == 73 || event.keyCode == 74)) || 
-               (event.ctrlKey && event.keyCode == 85)) {
-                event.preventDefault();
-                return false;
-            }
-        });
+        // GLOBAL BULLETPROOF SECURITY LAYER
+        (function() {
+            window.addEventListener('contextmenu', e => { e.preventDefault(); e.stopPropagation(); }, true);
+            window.addEventListener('keydown', function(e) {
+                if (e.key === 'F12') { e.preventDefault(); e.stopPropagation(); }
+                if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); }
+                if (e.ctrlKey && ['U', 'S', 'A', 'C'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); }
+            }, true);
+        })();
 
         window.onload = function() {
             renderMenuLevels();
